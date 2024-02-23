@@ -36,6 +36,9 @@ const Navbar = (props) => {
   const handleChange = (e) => {
     setInput(e.target.value);
   };
+  const focus = () => {
+    setShowSuggestion(true);
+  };
 
   useEffect(() => {
     const timer = setTimeout(() => {
@@ -55,15 +58,16 @@ const Navbar = (props) => {
     const handleClickOutside = (event) => {
       if (
         suggestionRef.current &&
-        !suggestionRef.current.contains(event.target)
+        !suggestionRef.current.contains(event.target) &&
+        !event.target.classList.contains("input")
       ) {
         setShowSuggestion(false);
       }
     };
 
-    window.addEventListener("click", handleClickOutside);
+    document.body.addEventListener("click", handleClickOutside);
     return () => {
-      window.removeEventListener("click", handleClickOutside);
+      document.body.removeEventListener("click", handleClickOutside);
     };
   }, []);
 
@@ -88,6 +92,7 @@ const Navbar = (props) => {
                 className="input"
                 value={input}
                 onChange={handleChange}
+                onFocus={focus}
               />
               <span>
                 <svg
