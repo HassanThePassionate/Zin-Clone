@@ -1,19 +1,19 @@
 "use client";
-import { useRef, useState, useEffect, useMemo } from "react";
+import { useRef, useState, useEffect } from "react";
 import Link from "next/link";
 import Logo from "./Logo";
 import Small from "./Small";
 import Navbtn from "./Navbtn";
 import Suggestion from "./Suggestion";
-import debounce from "lodash.debounce";
 
 const Navbar = (props) => {
   const [showMenu, setShowMenu] = useState(false);
   const [input, setInput] = useState("");
   const [showSuggestion, setShowSuggestion] = useState(false);
   const suggestionRef = useRef(null);
-
   const [rotate, setRotate] = useState(0);
+  const [debouncedInput, setDebouncedInput] = useState("");
+
   const handle = () => {
     const by = document.getElementsByClassName("drop-icon")[0];
     if (rotate === 0) {
@@ -28,24 +28,28 @@ const Navbar = (props) => {
   const handleSearch = () => {
     document.querySelector(".full").style.display = "inline-block";
   };
+
   const toggleMenu = () => {
     setShowMenu(!showMenu);
   };
 
   const handleChange = (e) => {
     setInput(e.target.value);
-    setShowSuggestion(true);
   };
-  // Search debouncing...
-  const debouncedResults = useMemo(() => {
-    return debounce(handleChange, 200);
-  }, []);
 
   useEffect(() => {
+    const timer = setTimeout(() => {
+      setDebouncedInput(input);
+    }, 500);
+
     return () => {
-      debouncedResults.cancel();
+      clearTimeout(timer);
     };
-  });
+  }, [input]);
+
+  useEffect(() => {
+    setShowSuggestion(!!debouncedInput);
+  }, [debouncedInput]);
 
   useEffect(() => {
     const handleClickOutside = (event) => {
@@ -59,9 +63,10 @@ const Navbar = (props) => {
 
     window.addEventListener("click", handleClickOutside);
     return () => {
-      document.removeEventListener("click", handleClickOutside);
+      window.removeEventListener("click", handleClickOutside);
     };
   }, []);
+
   return (
     <>
       <div className={`light  ${props.mode === "dark" ? "dark-nav" : "light"}`}>
@@ -70,17 +75,17 @@ const Navbar = (props) => {
       <header
         className={`header ${props.mode === "dark" ? "dark-nav" : "header"}`}
       >
-        <div class="container">
-          <Link href="index.html" class="logo">
+        <div className="container">
+          <Link href="index.html" className="logo">
             <Logo />
           </Link>
 
-          <div class="flex-box">
-            <div class="search-bar">
+          <div className="flex-box">
+            <div className="search-bar">
               <input
                 type="text"
                 placeholder="Search for Movies, TV Shows, Themes &amp; Cast"
-                class="input"
+                className="input"
                 value={input}
                 onChange={handleChange}
               />
@@ -92,16 +97,16 @@ const Navbar = (props) => {
                   viewBox="0 0 24 24"
                   fill="none"
                   stroke="currentColor"
-                  stroke-width="2"
-                  stroke-linecap="round"
-                  stroke-linejoin="round"
+                  strokeWidth="2"
+                  strokeLinecap="round"
+                  strokeLinejoin="round"
                 >
                   <circle cx="11" cy="11" r="8"></circle>
                   <path d="m21 21-4.3-4.3"></path>
                 </svg>
               </span>
               <div ref={suggestionRef}>
-                <Suggestion show={showSuggestion} input={input} />
+                <Suggestion show={showSuggestion} input={debouncedInput} />
               </div>
             </div>
             <span className="search-icon">
@@ -113,9 +118,9 @@ const Navbar = (props) => {
                 viewBox="0 0 24 24"
                 fill="none"
                 stroke="currentColor"
-                stroke-width="2"
-                stroke-linecap="round"
-                stroke-linejoin="round"
+                strokeWidth="2"
+                strokeLinecap="round"
+                strokeLinejoin="round"
               >
                 <circle cx="11" cy="11" r="8"></circle>
                 <path d="m21 21-4.3-4.3"></path>
@@ -131,10 +136,10 @@ const Navbar = (props) => {
                   viewBox="0 0 24 24"
                   fill="none"
                   stroke="currentColor"
-                  stroke-width="2.3"
-                  stroke-linecap="round"
-                  stroke-linejoin="round"
-                  class="text-text-primary"
+                  strokeWidth="2.3"
+                  strokeLinecap="round"
+                  strokeLinejoin="round"
+                  className="text-text-primary"
                 >
                   <line x1="4" x2="20" y1="12" y2="12"></line>
                   <line x1="4" x2="20" y1="6" y2="6"></line>
@@ -147,7 +152,7 @@ const Navbar = (props) => {
           <Navbtn />
         </div>
 
-        <nav class={`navbar ${showMenu ? "tx" : "ty"}`}>
+        <nav className={`navbar ${showMenu ? "tx" : "ty"}`}>
           <div className="cross" onClick={toggleMenu}>
             <svg
               xmlns="http://www.w3.org/2000/svg"
@@ -156,70 +161,70 @@ const Navbar = (props) => {
               viewBox="0 0 24 24"
               fill="none"
               stroke="currentColor"
-              stroke-width="2"
-              stroke-linecap="round"
-              stroke-linejoin="round"
+              strokeWidth="2"
+              strokeLinecap="round"
+              strokeLinejoin="round"
             >
               <path d="M18 6 6 18"></path>
               <path d="m6 6 12 12"></path>
             </svg>
           </div>
 
-          <div class="container">
-            <ul class="list-iteams">
-              <li class="relative">
-                <Link class="group-link" href="/">
+          <div className="container">
+            <ul className="list-iteams">
+              <li className="relative">
+                <Link className="group-link" href="/">
                   Stock Video
                 </Link>
               </li>
-              <li class="relative">
-                <Link class="group-link" href="/">
+              <li className="relative">
+                <Link className="group-link" href="/">
                   Video Templates
                 </Link>
               </li>
-              <li class="relative">
-                <Link class="group-link" href="/">
+              <li className="relative">
+                <Link className="group-link" href="/">
                   Music
                 </Link>
               </li>
-              <li class="relative">
-                <Link class="group-link" href="/">
+              <li className="relative">
+                <Link className="group-link" href="/">
                   Sound Effects
                 </Link>
               </li>
-              <li class="relative">
-                <Link class="group-link" href="/">
+              <li className="relative">
+                <Link className="group-link" href="/">
                   Graphic Templates
                 </Link>
               </li>
-              <li class="relative">
-                <Link class="group-link" href="/">
+              <li className="relative">
+                <Link className="group-link" href="/">
                   Graphics
                 </Link>
               </li>
-              <li class="relative">
-                <Link class="group-link" href="/">
+              <li className="relative">
+                <Link className="group-link" href="/">
                   Presentation Templates
                 </Link>
               </li>
-              <li class="relative">
-                <Link class="group-link" href="/">
+              <li className="relative">
+                <Link className="group-link" href="/">
                   Photos
                 </Link>
               </li>
-              <li class="relative">
-                <Link class="group-link" href="/">
+              <li className="relative">
+                <Link className="group-link" href="/">
                   Fonts
                 </Link>
               </li>
-              <li class="relative">
-                <Link class="group-link" href="/">
+              <li className="relative">
+                <Link className="group-link" href="/">
                   Add-ons
                 </Link>
               </li>
-              <li class="relative group hid">
-                <span class="group-link">More</span>
-                <ul class="dropdown">
+              <li className="relative group hid">
+                <span className="group-link">More</span>
+                <ul className="dropdown">
                   <li>
                     <Link href="">Another Link</Link>
                   </li>
@@ -228,28 +233,28 @@ const Navbar = (props) => {
                   </li>
                 </ul>
               </li>
-              <li class="relative none group" onClick={handle}>
+              <li className="relative none group" onClick={handle}>
                 <details className="gp">
                   <summary className="gt">
                     <div className="lp">
-                      <span class="group-link block">More</span>
+                      <span className="group-link block">More</span>
                     </div>
                     <span className="drop-icon">
                       <svg
                         xmlns="http://www.w3.org/2000/svg"
-                        class="svg"
+                        className="svg"
                         viewBox="0 0 20 20"
                         fill="currentColor"
                       >
                         <path
-                          fill-rule="evenodd"
+                          fillRule="evenodd"
                           d="M5.293 7.293a1 1 0 011.414 0L10 10.586l3.293-3.293a1 1 0 111.414 1.414l-4 4a1 1 0 01-1.414 0l-4-4a1 1 0 010-1.414z"
-                          clip-rule="evenodd"
+                          clipRule="evenodd"
                         ></path>
                       </svg>
                     </span>
                   </summary>
-                  <ul class="dropdown-none">
+                  <ul className="dropdown-none">
                     <li>
                       <Link href="" className="de">
                         Another Link
@@ -263,17 +268,17 @@ const Navbar = (props) => {
                   </ul>
                 </details>
               </li>
-              <div class="nav-btns">
-                <Link class="nav-btn" href="/">
+              <div className="nav-btns">
+                <Link className="nav-btn" href="/">
                   Log in
                 </Link>
-                <Link class="nav2-btn" href="/">
+                <Link className="nav2-btn" href="/">
                   Sign up
                 </Link>
               </div>
             </ul>
 
-            <Link href="" class="more-btn">
+            <Link href="" className="more-btn">
               More
             </Link>
           </div>

@@ -58,12 +58,16 @@ const Suggestion = (props) => {
           <div className="suggestion">
             <p className="keyword">KEYWORD</p>
             <ul className="suggestion-list">
-              {filteredData.map((item) => (
-                <li key={item.title}>
-                  <Image src={item.image} width={30} height={30} />
-                  <p className="para">{item.title}</p>
-                </li>
-              ))}
+              {filteredData.length === 0 && props.input.trim() !== "" ? (
+                <li className="no-match">No Tool Available 😃</li>
+              ) : (
+                filteredData.map((item) => (
+                  <li key={item.title}>
+                    <Image src={item.image} width={30} height={30} />
+                    <p className="para">{item.title}</p>
+                  </li>
+                ))
+              )}
             </ul>
           </div>
         </>
