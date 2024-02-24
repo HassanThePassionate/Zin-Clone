@@ -135,6 +135,7 @@ const Slider = (props) => {
                             alt="images"
                             width={65}
                             height={65}
+                            className="card-img"
                           />
                           <h3>{e.title}</h3>
                           <p>{e.desc}</p>

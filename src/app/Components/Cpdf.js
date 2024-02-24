@@ -1,340 +1,145 @@
+import React from "react";
+import { useDispatch, useSelector } from "react-redux";
 import Image from "next/image";
 import Link from "next/link";
+import { addBookmark, removeBookmark } from "../reducer/bookmarkSlice";
 
-const Cpdf = (props) => {
+const Cpdf = ({ mode }) => {
+  const dispatch = useDispatch();
+  const bookMarks = useSelector((state) => state.bookmark.items);
+
+  const clickBookmark = (id, e) => {
+    if (bookMarks.some((item) => item.id === id)) {
+      dispatch(removeBookmark(id));
+    } else {
+      dispatch(
+        addBookmark({ id: id, title: e.title, des: e.des, image: e.image })
+      );
+    }
+  };
+  const data = [
+    {
+      title: "PDF to Word",
+      id: 1,
+      des: "Easily convert PDF to Word document.",
+      image: "https://images.hipdf.com/images2022/icons/pdf-word.svg",
+    },
+    {
+      title: "PDF to PPT",
+      image: "https://images.hipdf.com/images2022/icons/PDF-PPT.svg",
+      id: 2,
+      des: "Convert PDF to Powerpoint online.",
+    },
+    {
+      title: "PDF to Excel",
+      image: "https://images.hipdf.com/images2022/icons/pdf-excel.svg",
+      id: 3,
+      des: "Convert PDF to xls for free",
+    },
+    {
+      title: "PDF to JPG",
+      image: "https://images.hipdf.com/images2022/icons/PDF-JPG.svg",
+      id: 4,
+      des: "Convert PDF files to a set of optimized JPG, PNG, BMP, GIF or TIFF images.",
+    },
+    {
+      title: "PDF to TXT",
+      image: "https://images.hipdf.com/images2022/icons/PDF-TXT.svg",
+      id: 5,
+      des: "Convert your PDF to TXT, and extract text from your PDF.",
+    },
+    {
+      title: "PDF to RTX",
+      image: "https://images.hipdf.com/images2022/icons/PDF-RTX.svg",
+      id: 6,
+      des: "Convert PDF to RTX online and free..",
+    },
+    {
+      title: "PDF to Pages",
+      image: "https://images.hipdf.com/images2022/icons/PDF-Pages.svg",
+      id: 7,
+      des: "Convert PDF to Pages on Mac and Windows.",
+    },
+    {
+      title: "PDF to HTML",
+      image: "https://images.hipdf.com/images2022/icons/pdf-html.svg",
+      id: 8,
+      des: "Convert your PDF documents to HTML web page.",
+    },
+    {
+      title: "PDF to DXF",
+      image: "https://images.hipdf.com/images2022/icons/PDF-DXF.svg",
+      id: 9,
+      des: "The best online tool to convert PDF to DXF online.",
+    },
+    {
+      title: "PDF to EPUB",
+      image: "https://images.hipdf.com/images2022/icons/PDF-EPUB.svg",
+      id: 10,
+      des: "Convert PDF file to EPUB ebook.",
+    },
+    {
+      title: "OCR",
+      image: "https://images.hipdf.com/images2022/icons/OCR.svg",
+      id: 11,
+      des: "  Convert your scanned PDFs and images into editable Word, Excel, and PPT.",
+    },
+  ];
   return (
     <>
-      <main
-        className={`main last-main ${
-          props.mode === "dark" ? "dark-main" : "main"
-        }`}
-      >
+      <main className={`main last ${mode === "dark" ? "dark-main" : "main"}`}>
         <section className="container slider">
-          <h2>Convert from PDF</h2>
+          <h2> Convert from PDF</h2>
           <div className="grid">
-            <div className="relate">
-              <div className="btn-book">
-                <svg
-                  xmlns="http://www.w3.org/2000/svg"
-                  width="23"
-                  height="23"
-                  viewBox="0 0 24 24"
-                  fill="none"
-                  stroke="currentColor"
-                  stroke-width="2"
-                  stroke-linecap="round"
-                  stroke-linejoin="round"
+            {data.map((e, index) => (
+              <div className="relate" key={index}>
+                <div
+                  className="btn-book"
+                  onClick={() => clickBookmark(e.id, e)}
                 >
-                  <path d="m19 21-7-4-7 4V5a2 2 0 0 1 2-2h10a2 2 0 0 1 2 2v16z"></path>
-                </svg>
+                  {bookMarks.some((item) => item.id === e.id) ? (
+                    <svg
+                      xmlns="http://www.w3.org/2000/svg"
+                      width="23"
+                      height="23"
+                      viewBox="0 0 24 24"
+                      stroke="currentColor"
+                      strokeWidth="2"
+                      strokeLinecap="round"
+                      strokeLinejoin="round"
+                      style={{ fill: mode === "dark" ? "white" : "black" }}
+                    >
+                      <path d="m19 21-7-4-7 4V5a2 2 0 0 1 2-2h10a2 2 0 0 1 2 2v16z"></path>
+                    </svg>
+                  ) : (
+                    <svg
+                      xmlns="http://www.w3.org/2000/svg"
+                      width="23"
+                      height="23"
+                      viewBox="0 0 24 24"
+                      fill="none"
+                      stroke="currentColor"
+                      strokeWidth="2"
+                      strokeLinecap="round"
+                      strokeLinejoin="round"
+                    >
+                      <path d="m19 21-7-4-7 4V5a2 2 0 0 1 2-2h10a2 2 0 0 1 2 2v16z"></path>
+                    </svg>
+                  )}
+                </div>
+                <Link href="https://www.hipdf.com/word-to-pdf" className="card">
+                  <Image
+                    src={e.image}
+                    alt=""
+                    width={65}
+                    height={65}
+                    className="card-img"
+                  />
+                  <h3>{e.title}</h3>
+                  <p>{e.des}</p>
+                </Link>
               </div>
-              <Link href="https://www.hipdf.com/word-to-pdf" className="card">
-                <Image
-                  src="https://images.hipdf.com/images2022/icons/pdf-word.svg"
-                  alt=""
-                  width={65}
-                  height={65}
-                />
-                <h3>PDF to Word</h3>
-                <p>Easily convert PDF to Word document.</p>
-              </Link>
-            </div>
-
-            <div className="relate">
-              <div className="btn-book">
-                <svg
-                  xmlns="http://www.w3.org/2000/svg"
-                  width="24"
-                  height="24"
-                  viewBox="0 0 24 24"
-                  fill="none"
-                  stroke="currentColor"
-                  stroke-width="2"
-                  stroke-linecap="round"
-                  stroke-linejoin="round"
-                  className=""
-                >
-                  <path d="m19 21-7-4-7 4V5a2 2 0 0 1 2-2h10a2 2 0 0 1 2 2v16z"></path>
-                </svg>
-              </div>
-              <Link href="https://www.hipdf.com/word-to-pdf" className="card">
-                <Image
-                  src="https://images.hipdf.com/images2022/icons/PDF-PPT.svg"
-                  alt=""
-                  width={65}
-                  height={65}
-                />
-                <h3>PDF to PPT</h3>
-                <p>Convert PDF to Powerpoint online.</p>
-              </Link>
-            </div>
-
-            <div className="relate">
-              <div className="btn-book">
-                <svg
-                  xmlns="http://www.w3.org/2000/svg"
-                  width="24"
-                  height="24"
-                  viewBox="0 0 24 24"
-                  fill="none"
-                  stroke="currentColor"
-                  stroke-width="2"
-                  stroke-linecap="round"
-                  stroke-linejoin="round"
-                  className=""
-                >
-                  <path d="m19 21-7-4-7 4V5a2 2 0 0 1 2-2h10a2 2 0 0 1 2 2v16z"></path>
-                </svg>
-              </div>
-              <Link href="https://www.hipdf.com/word-to-pdf" className="card">
-                <Image
-                  src="https://images.hipdf.com/images2022/icons/pdf-excel.svg"
-                  alt=""
-                  width={65}
-                  height={65}
-                />
-                <h3>PDF to Excel</h3>
-                <p>Convert PDF to xls for free.</p>
-              </Link>
-            </div>
-
-            <div className="relate">
-              <div className="btn-book">
-                <svg
-                  xmlns="http://www.w3.org/2000/svg"
-                  width="24"
-                  height="24"
-                  viewBox="0 0 24 24"
-                  fill="none"
-                  stroke="currentColor"
-                  stroke-width="2"
-                  stroke-linecap="round"
-                  stroke-linejoin="round"
-                  className=""
-                >
-                  <path d="m19 21-7-4-7 4V5a2 2 0 0 1 2-2h10a2 2 0 0 1 2 2v16z"></path>
-                </svg>
-              </div>
-              <Link href="https://www.hipdf.com/word-to-pdf" className="card">
-                <Image
-                  src="https://images.hipdf.com/images2022/icons/PDF-JPG.svg"
-                  alt=""
-                  width={65}
-                  height={65}
-                />
-                <h3>PDF to JPG</h3>
-                <p>
-                  Convert PDF files to a set of optimized JPG, PNG, BMP, GIF or
-                  TIFF images.
-                </p>
-              </Link>
-            </div>
-
-            <div className="relate">
-              <div className="btn-book">
-                <svg
-                  xmlns="http://www.w3.org/2000/svg"
-                  width="24"
-                  height="24"
-                  viewBox="0 0 24 24"
-                  fill="none"
-                  stroke="currentColor"
-                  stroke-width="2"
-                  stroke-linecap="round"
-                  stroke-linejoin="round"
-                  className=""
-                >
-                  <path d="m19 21-7-4-7 4V5a2 2 0 0 1 2-2h10a2 2 0 0 1 2 2v16z"></path>
-                </svg>
-              </div>
-              <Link href="https://www.hipdf.com/word-to-pdf" className="card">
-                <Image
-                  src="https://images.hipdf.com/images2022/icons/PDF-TXT.svg"
-                  alt=""
-                  width={65}
-                  height={65}
-                />
-                <h3>PDF to TXT</h3>
-                <p>Convert your PDF to TXT, and extract text from your PDF.</p>
-              </Link>
-            </div>
-
-            <div className="relate">
-              <div className="btn-book">
-                <svg
-                  xmlns="http://www.w3.org/2000/svg"
-                  width="24"
-                  height="24"
-                  viewBox="0 0 24 24"
-                  fill="none"
-                  stroke="currentColor"
-                  stroke-width="2"
-                  stroke-linecap="round"
-                  stroke-linejoin="round"
-                  className=""
-                >
-                  <path d="m19 21-7-4-7 4V5a2 2 0 0 1 2-2h10a2 2 0 0 1 2 2v16z"></path>
-                </svg>
-              </div>
-              <Link href="https://www.hipdf.com/word-to-pdf" className="card">
-                <Image
-                  src="https://images.hipdf.com/images2022/icons/PDF-RTX.svg"
-                  alt=""
-                  width={65}
-                  height={65}
-                />
-                <h3>PDF to RTF</h3>
-                <p>Convert PDF to RTF online and free.</p>
-              </Link>
-            </div>
-
-            <div className="relate">
-              <div className="btn-book">
-                <svg
-                  xmlns="http://www.w3.org/2000/svg"
-                  width="24"
-                  height="24"
-                  viewBox="0 0 24 24"
-                  fill="none"
-                  stroke="currentColor"
-                  stroke-width="2"
-                  stroke-linecap="round"
-                  stroke-linejoin="round"
-                  className=""
-                >
-                  <path d="m19 21-7-4-7 4V5a2 2 0 0 1 2-2h10a2 2 0 0 1 2 2v16z"></path>
-                </svg>
-              </div>
-              <Link href="https://www.hipdf.com/word-to-pdf" className="card">
-                <Image
-                  src="https://images.hipdf.com/images2022/icons/PDF-Pages.svg"
-                  alt=""
-                  width={65}
-                  height={65}
-                />
-                <h3>PDF to Pages</h3>
-                <p>Convert PDF to Pages on Mac and Windows.</p>
-              </Link>
-            </div>
-
-            <div className="relate">
-              <div className="btn-book">
-                <svg
-                  xmlns="http://www.w3.org/2000/svg"
-                  width="24"
-                  height="24"
-                  viewBox="0 0 24 24"
-                  fill="none"
-                  stroke="currentColor"
-                  stroke-width="2"
-                  stroke-linecap="round"
-                  stroke-linejoin="round"
-                  className=""
-                >
-                  <path d="m19 21-7-4-7 4V5a2 2 0 0 1 2-2h10a2 2 0 0 1 2 2v16z"></path>
-                </svg>
-              </div>
-              <Link href="https://www.hipdf.com/word-to-pdf" className="card">
-                <Image
-                  src="https://images.hipdf.com/images2022/icons/pdf-html.svg"
-                  alt=""
-                  width={65}
-                  height={65}
-                />
-                <h3>PDF to HTML</h3>
-                <p>Convert your PDF documents to HTML web page.</p>
-              </Link>
-            </div>
-
-            <div className="relate">
-              <div className="btn-book">
-                <svg
-                  xmlns="http://www.w3.org/2000/svg"
-                  width="24"
-                  height="24"
-                  viewBox="0 0 24 24"
-                  fill="none"
-                  stroke="currentColor"
-                  stroke-width="2"
-                  stroke-linecap="round"
-                  stroke-linejoin="round"
-                  className=""
-                >
-                  <path d="m19 21-7-4-7 4V5a2 2 0 0 1 2-2h10a2 2 0 0 1 2 2v16z"></path>
-                </svg>
-              </div>
-              <Link href="https://www.hipdf.com/word-to-pdf" className="card">
-                <Image
-                  src="https://images.hipdf.com/images2022/icons/PDF-DXF.svg"
-                  alt=""
-                  width={65}
-                  height={65}
-                />
-                <h3>PDF to DXF</h3>
-                <p>The best online tool to convert PDF to DXF online.</p>
-              </Link>
-            </div>
-
-            <div className="relate">
-              <div className="btn-book">
-                <svg
-                  xmlns="http://www.w3.org/2000/svg"
-                  width="24"
-                  height="24"
-                  viewBox="0 0 24 24"
-                  fill="none"
-                  stroke="currentColor"
-                  stroke-width="2"
-                  stroke-linecap="round"
-                  stroke-linejoin="round"
-                  className=""
-                >
-                  <path d="m19 21-7-4-7 4V5a2 2 0 0 1 2-2h10a2 2 0 0 1 2 2v16z"></path>
-                </svg>
-              </div>
-              <Link href="https://www.hipdf.com/word-to-pdf" className="card">
-                <Image
-                  src="https://images.hipdf.com/images2022/icons/PDF-EPUB.svg"
-                  alt=""
-                  width={65}
-                  height={65}
-                />
-                <h3>PDF to EPUB</h3>
-                <p>Convert PDF file to EPUB ebook.</p>
-              </Link>
-            </div>
-
-            <div className="relate">
-              <div className="btn-book">
-                <svg
-                  xmlns="http://www.w3.org/2000/svg"
-                  width="24"
-                  height="24"
-                  viewBox="0 0 24 24"
-                  fill="none"
-                  stroke="currentColor"
-                  stroke-width="2"
-                  stroke-linecap="round"
-                  stroke-linejoin="round"
-                  className=""
-                >
-                  <path d="m19 21-7-4-7 4V5a2 2 0 0 1 2-2h10a2 2 0 0 1 2 2v16z"></path>
-                </svg>
-              </div>
-              <Link href="https://www.hipdf.com/word-to-pdf" className="card">
-                <Image
-                  src="https://images.hipdf.com/images2022/icons/OCR.svg"
-                  alt=""
-                  width={65}
-                  height={65}
-                />
-                <h3>OCR</h3>
-                <p>
-                  Convert your scanned PDFs and images into editable Word,
-                  Excel, and PPT.
-                </p>
-              </Link>
-            </div>
+            ))}
           </div>
         </section>
       </main>
