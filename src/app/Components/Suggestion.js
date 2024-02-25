@@ -1,8 +1,8 @@
 import Image from "next/image";
 import React from "react";
 
-const Suggestion = (props) => {
-  const data = [
+const Suggestion = ({ input, show }) => {
+  const tools = [
     {
       title: "PDF to Word",
       image: "https://images.hipdf.com/images2022/icons/pdf-word.svg",
@@ -48,34 +48,28 @@ const Suggestion = (props) => {
       image: "https://images.hipdf.com/images2022/icons/OCR.svg",
     },
   ];
-  const filteredData = data.filter((item) =>
-    item.title.toLowerCase().includes(props.input.toLowerCase())
+
+  const filteredTools = tools.filter((tool) =>
+    tool.title.toLowerCase().includes(input.toLowerCase())
   );
-  return (
-    <>
-      {props.show === true ? (
-        <>
-          <div className="suggestion">
-            <p className="keyword">KEYWORD</p>
-            <ul className="suggestion-list">
-              {filteredData.length === 0 && props.input.trim() !== "" ? (
-                <li className="no-match">No Tool Available 😃</li>
-              ) : (
-                filteredData.map((item) => (
-                  <li key={item.title}>
-                    <Image src={item.image} width={30} height={30} />
-                    <p className="para">{item.title}</p>
-                  </li>
-                ))
-              )}
-            </ul>
-          </div>
-        </>
-      ) : (
-        ""
-      )}
-    </>
-  );
+
+  return show ? (
+    <div className="suggestion">
+      <p className="keyword">KEYWORD</p>
+      <ul className="suggestion-list">
+        {filteredTools.length === 0 && input.trim() !== "" ? (
+          <li className="no-match">No Tool Available 😃</li>
+        ) : (
+          filteredTools.map((tool) => (
+            <li key={tool.title}>
+              <Image src={tool.image} width={30} height={30} />
+              <p className="para">{tool.title}</p>
+            </li>
+          ))
+        )}
+      </ul>
+    </div>
+  ) : null;
 };
 
 export default Suggestion;

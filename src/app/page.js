@@ -8,27 +8,14 @@ import Slider from "./Components/Slider";
 import Bookmark from "./Components/Bookmark";
 import { Provider } from "react-redux";
 import store from "./redux/store";
-
 const Page = () => {
-  // const [bookmarkedCards, setBookmarkedCards] = useState([]);
   const [mode, setMode] = useState("light");
 
-  // const toggleBookmark = (id) => {
-  //   if (bookmarkedCards.includes(id)) {
-  //     setBookmarkedCards(bookmarkedCards.filter((item) => item !== id));
-  //   } else {
-  //     setBookmarkedCards([...bookmarkedCards, id]);
-  //   }
-  // };
-
   const toggle = () => {
-    if (mode === "light") {
-      setMode("dark");
-      document.body.style.backgroundColor = "black";
-    } else {
-      setMode("light");
-      document.body.style.backgroundColor = "white";
-    }
+    const newMode = mode === "light" ? "dark" : "light";
+    setMode(newMode);
+    document.body.style.backgroundColor =
+      newMode === "dark" ? "black" : "white";
   };
 
   return (

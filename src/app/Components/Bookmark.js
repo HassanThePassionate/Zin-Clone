@@ -17,58 +17,40 @@ const Bookmark = ({ mode }) => {
   }
 
   return (
-    <>
-      <main className={`main  ${mode === "dark" ? "dark-main" : "main"}`}>
-        <section className="container slider ">
-          <h2>Your Bookmark</h2>
-          <div className="grid">
-            {bookmarkedItems.map((item) => (
-              <div className="relate" key={item.id}>
-                <div
-                  className="btn-book"
-                  onClick={() => handleRemoveBookmark(item.id)}
+    <main className={`main ${mode === "dark" ? "dark-main" : "main"}`}>
+      <section className="container slider">
+        <h2>Your Bookmark</h2>
+        <div className="grid">
+          {bookmarkedItems.map((item) => (
+            <div className="relate" key={item.id}>
+              <div
+                className="btn-book"
+                onClick={() => handleRemoveBookmark(item.id)}
+              >
+                <svg
+                  xmlns="http://www.w3.org/2000/svg"
+                  width="23"
+                  height="23"
+                  viewBox="0 0 24 24"
+                  fill={mode === "dark" ? "white" : "black"}
+                  stroke="currentColor"
+                  strokeWidth="2"
+                  strokeLinecap="round"
+                  strokeLinejoin="round"
                 >
-                  {mode === "dark" ? (
-                    <svg
-                      xmlns="http://www.w3.org/2000/svg"
-                      width="23"
-                      height="23"
-                      viewBox="0 0 24 24"
-                      fill="white"
-                      stroke="currentColor"
-                      strokeWidth="2"
-                      strokeLinecap="round"
-                      strokeLinejoin="round"
-                    >
-                      <path d="m19 21-7-4-7 4V5a2 2 0 0 1 2-2h10a2 2 0 0 1 2 2v16z"></path>
-                    </svg>
-                  ) : (
-                    <svg
-                      xmlns="http://www.w3.org/2000/svg"
-                      width="23"
-                      height="23"
-                      viewBox="0 0 24 24"
-                      fill="black"
-                      stroke="currentColor"
-                      strokeWidth="2"
-                      strokeLinecap="round"
-                      strokeLinejoin="round"
-                    >
-                      <path d="m19 21-7-4-7 4V5a2 2 0 0 1 2-2h10a2 2 0 0 1 2 2v16z"></path>
-                    </svg>
-                  )}
-                </div>
-                <Link href="https://www.hipdf.com/word-to-pdf" className="card">
-                  <Image src={item.image} alt="" width={65} height={65} />
-                  <h3>{item.title}</h3>
-                  <p>{item.des}</p>
-                </Link>
+                  <path d="m19 21-7-4-7 4V5a2 2 0 0 1 2-2h10a2 2 0 0 1 2 2v16z"></path>
+                </svg>
               </div>
-            ))}
-          </div>
-        </section>
-      </main>
-    </>
+              <Link href="https://www.hipdf.com/word-to-pdf" className="card">
+                <Image src={item.image} alt="" width={65} height={65} />
+                <h3>{item.title}</h3>
+                <p>{item.des}</p>
+              </Link>
+            </div>
+          ))}
+        </div>
+      </section>
+    </main>
   );
 };
 

@@ -3,17 +3,21 @@ import { useDispatch, useSelector } from "react-redux";
 import Image from "next/image";
 import Link from "next/link";
 import { addBookmark, removeBookmark } from "../reducer/bookmarkSlice";
-
 const Converter = ({ mode }) => {
   const dispatch = useDispatch();
-  const bookMarks = useSelector((state) => state.bookmark.items);
+  const bookmarks = useSelector((state) => state.bookmark.items);
 
-  const clickBookmark = (id, e) => {
-    if (bookMarks.some((item) => item.id === id)) {
+  const clickBookmark = (id, item) => {
+    if (bookmarks.some((bookmark) => bookmark.id === id)) {
       dispatch(removeBookmark(id));
     } else {
       dispatch(
-        addBookmark({ id: id, title: e.title, des: e.des, image: e.image })
+        addBookmark({
+          id: id,
+          title: item.title,
+          des: item.des,
+          image: item.image,
+        })
       );
     }
   };
@@ -73,54 +77,42 @@ const Converter = ({ mode }) => {
     <>
       <main className={`main ${mode === "dark" ? "dark-main" : "main"}`}>
         <section className="container slider">
-          <h2> Convert from PDF</h2>
+          <h2>Convert from PDF</h2>
           <div className="grid">
-            {data.map((e, index) => (
+            {data.map((item, index) => (
               <div className="relate" key={index}>
                 <div
                   className="btn-book"
-                  onClick={() => clickBookmark(e.id, e)}
+                  onClick={() => clickBookmark(item.id, item)}
                 >
-                  {bookMarks.some((item) => item.id === e.id) ? (
-                    <svg
-                      xmlns="http://www.w3.org/2000/svg"
-                      width="23"
-                      height="23"
-                      viewBox="0 0 24 24"
-                      fill="black"
-                      stroke="currentColor"
-                      strokeWidth="2"
-                      strokeLinecap="round"
-                      strokeLinejoin="round"
-                    >
-                      <path d="m19 21-7-4-7 4V5a2 2 0 0 1 2-2h10a2 2 0 0 1 2 2v16z"></path>
-                    </svg>
-                  ) : (
-                    <svg
-                      xmlns="http://www.w3.org/2000/svg"
-                      width="23"
-                      height="23"
-                      viewBox="0 0 24 24"
-                      fill="white"
-                      stroke="currentColor"
-                      strokeWidth="2"
-                      strokeLinecap="round"
-                      strokeLinejoin="round"
-                    >
-                      <path d="m19 21-7-4-7 4V5a2 2 0 0 1 2-2h10a2 2 0 0 1 2 2v16z"></path>
-                    </svg>
-                  )}
+                  <svg
+                    xmlns="http://www.w3.org/2000/svg"
+                    width="23"
+                    height="23"
+                    viewBox="0 0 24 24"
+                    fill={
+                      bookmarks.some((bookmark) => bookmark.id === item.id)
+                        ? "black"
+                        : "white"
+                    }
+                    stroke="currentColor"
+                    strokeWidth="2"
+                    strokeLinecap="round"
+                    strokeLinejoin="round"
+                  >
+                    <path d="m19 21-7-4-7 4V5a2 2 0 0 1 2-2h10a2 2 0 0 1 2 2v16z"></path>
+                  </svg>
                 </div>
-                <Link href="https://www.hipdf.com/word-to-pdf" className="card">
+                <Link href={item.url} className="card">
                   <Image
-                    src={e.image}
+                    src={item.image}
                     alt=""
                     width={65}
                     height={65}
                     className="card-img"
                   />
-                  <h3>{e.title}</h3>
-                  <p>{e.des}</p>
+                  <h3>{item.title}</h3>
+                  <p>{item.des}</p>
                 </Link>
               </div>
             ))}

@@ -92,6 +92,7 @@ const Slider = (props) => {
     }
   };
   const [swiperInstance, setSwiperInstance] = useState(null);
+
   const goNext = () => {
     if (swiperInstance) {
       swiperInstance.slideNext();
@@ -105,172 +106,96 @@ const Slider = (props) => {
   };
 
   return (
-    <>
-      <main className={`main ${props.mode === "dark" ? "dark-main" : "main"}`}>
-        <section className="container slider">
-          <h2>Convert from PDF</h2>
-          <div className="slider-content">
-            <Swiper
-              slidesPerView={5}
-              spaceBetween={30}
-              loop={true}
-              onSwiper={(swiper) => setSwiperInstance(swiper)}
-              navigation={{
-                nextEl: "#next",
-                prevEl: "#prev",
-              }}
-              modules={[Navigation]}
-              className="mySwiper"
-            >
-              {data.map((e, index) => (
-                <SwiperSlide key={index}>
-                  <div className="relate">
-                    <div
-                      className="btn-book"
-                      onClick={() => clickBookmark(e.id, e)}
-                    >
-                      {bookMarks.some((item) => item.id === e.id) ? (
-                        <svg
-                          xmlns="http://www.w3.org/2000/svg"
-                          width="23"
-                          height="23"
-                          viewBox="0 0 24 24"
-                          stroke="currentColor"
-                          strokeWidth="2"
-                          strokeLinecap="round"
-                          strokeLinejoin="round"
-                          style={{
-                            fill: props.mode === "dark" ? "white" : "black",
-                          }}
-                        >
-                          <path d="m19 21-7-4-7 4V5a2 2 0 0 1 2-2h10a2 2 0 0 1 2 2v16z"></path>
-                        </svg>
-                      ) : (
-                        <svg
-                          xmlns="http://www.w3.org/2000/svg"
-                          width="23"
-                          height="23"
-                          viewBox="0 0 24 24"
-                          fill="none"
-                          stroke="currentColor"
-                          strokeWidth="2"
-                          strokeLinecap="round"
-                          strokeLinejoin="round"
-                        >
-                          <path d="m19 21-7-4-7 4V5a2 2 0 0 1 2-2h10a2 2 0 0 1 2 2v16z"></path>
-                        </svg>
-                      )}
-                    </div>
-                    <Link
-                      href="https://www.hipdf.com/word-to-pdf"
-                      className="card"
-                    >
-                      <Image
-                        src={e.image}
-                        alt=""
-                        width={65}
-                        height={65}
-                        className="card-img"
+    <main className={`main ${props.mode === "dark" ? "dark-main" : "main"}`}>
+      <section className="container slider">
+        <h2>Convert from PDF</h2>
+        <div className="slider-content">
+          <Swiper
+            slidesPerView={5}
+            spaceBetween={30}
+            loop={true}
+            onSwiper={(swiper) => setSwiperInstance(swiper)}
+            navigation={{
+              nextEl: "#next",
+              prevEl: "#prev",
+            }}
+            modules={[Navigation]}
+            className="mySwiper"
+          >
+            {data.map((e, index) => (
+              <SwiperSlide key={index}>
+                <div className="relate">
+                  <div
+                    className="btn-book"
+                    onClick={() => clickBookmark(e.id, e)}
+                  >
+                    {bookMarks.some((item) => item.id === e.id) ? (
+                      <Bookmark
+                        fill={props.mode === "dark" ? "white" : "black"}
                       />
-                      <h3>{e.title}</h3>
-                      <p>{e.des}</p>
-                    </Link>
+                    ) : (
+                      <Bookmark />
+                    )}
                   </div>
-                </SwiperSlide>
-              ))}
-            </Swiper>
+                  <Link
+                    href="https://www.hipdf.com/word-to-pdf"
+                    className="card"
+                  >
+                    <Image
+                      src={e.image}
+                      alt=""
+                      width={65}
+                      height={65}
+                      className="card-img"
+                    />
+                    <h3>{e.title}</h3>
+                    <p>{e.des}</p>
+                  </Link>
+                </div>
+              </SwiperSlide>
+            ))}
+          </Swiper>
 
-            <div className="slider-btns">
-              {props.mode === "dark" ? (
-                <>
-                  <div id="prev" onClick={goPrev}>
-                    <svg
-                      style={{ color: "white" }}
-                      xmlns="http://www.w3.org/2000/svg"
-                      width="30"
-                      height="30"
-                      fill="currentColor"
-                      class="bi bi-arrow-left-circle"
-                      viewBox="0 0 16 16"
-                      stroke-width="0.3"
-                      stroke="#fff"
-                    >
-                      {" "}
-                      <path
-                        fill-rule="evenodd"
-                        d="M1 8a7 7 0 1 0 14 0A7 7 0 0 0 1 8zm15 0A8 8 0 1 1 0 8a8 8 0 0 1 16 0zm-4.5-.5a.5.5 0 0 1 0 1H5.707l2.147 2.146a.5.5 0 0 1-.708.708l-3-3a.5.5 0 0 1 0-.708l3-3a.5.5 0 1 1 .708.708L5.707 7.5H11.5z"
-                        fill="white"
-                      ></path>{" "}
-                    </svg>
-                  </div>
-                  <div id="next" onClick={goNext}>
-                    <svg
-                      style={{ color: "white" }}
-                      xmlns="http://www.w3.org/2000/svg"
-                      width="30"
-                      height="30"
-                      fill="currentColor"
-                      class="bi bi-arrow-right-circle"
-                      viewBox="0 0 16 16"
-                      stroke-width="0.3"
-                      stroke="#fff"
-                    >
-                      {" "}
-                      <path
-                        fill-rule="evenodd"
-                        d="M1 8a7 7 0 1 0 14 0A7 7 0 0 0 1 8zm15 0A8 8 0 1 1 0 8a8 8 0 0 1 16 0zM4.5 7.5a.5.5 0 0 0 0 1h5.793l-2.147 2.146a.5.5 0 0 0 .708.708l3-3a.5.5 0 0 0 0-.708l-3-3a.5.5 0 1 0-.708.708L10.293 7.5H4.5z"
-                        fill="white"
-                      ></path>{" "}
-                    </svg>
-                  </div>
-                </>
-              ) : (
-                <>
-                  <div id="prev" onClick={goPrev}>
-                    <svg
-                      xmlns="http://www.w3.org/2000/svg"
-                      width="30"
-                      height="30"
-                      fill="currentColor"
-                      class="bi bi-arrow-left-circle"
-                      viewBox="0 0 16 16"
-                      id="IconChangeColor"
-                    >
-                      {" "}
-                      <path
-                        fill-rule="evenodd"
-                        d="M1 8a7 7 0 1 0 14 0A7 7 0 0 0 1 8zm15 0A8 8 0 1 1 0 8a8 8 0 0 1 16 0zm-4.5-.5a.5.5 0 0 1 0 1H5.707l2.147 2.146a.5.5 0 0 1-.708.708l-3-3a.5.5 0 0 1 0-.708l3-3a.5.5 0 1 1 .708.708L5.707 7.5H11.5z"
-                        id="mainIconPathAttribute"
-                        stroke-width="0.3"
-                        stroke="#000000"
-                      ></path>{" "}
-                    </svg>
-                  </div>
-                  <div id="next" onClick={goNext}>
-                    <svg
-                      xmlns="http://www.w3.org/2000/svg"
-                      width="30px"
-                      height="30px"
-                      fill="currentColor"
-                      class="bi bi-arrow-right-circle"
-                      viewBox="0 0 16 16"
-                      stroke-width="0.3"
-                      stroke="#000000"
-                    >
-                      {" "}
-                      <path
-                        fill-rule="evenodd"
-                        d="M1 8a7 7 0 1 0 14 0A7 7 0 0 0 1 8zm15 0A8 8 0 1 1 0 8a8 8 0 0 1 16 0zM4.5 7.5a.5.5 0 0 0 0 1h5.793l-2.147 2.146a.5.5 0 0 0 .708.708l3-3a.5.5 0 0 0 0-.708l-3-3a.5.5 0 1 0-.708.708L10.293 7.5H4.5z"
-                      />{" "}
-                    </svg>
-                  </div>
-                </>
-              )}
+          <div className="slider-btns">
+            <div id="prev" onClick={goPrev}>
+              <svg
+                xmlns="http://www.w3.org/2000/svg"
+                width="30"
+                height="30"
+                fill="currentColor"
+                class="bi bi-arrow-left-circle"
+                viewBox="0 0 16 16"
+                stroke-width="0.3"
+                stroke="#fff"
+              >
+                <path
+                  fill-rule="evenodd"
+                  d="M1 8a7 7 0 1 0 14 0A7 7 0 0 0 1 8zm15 0A8 8 0 1 1 0 8a8 8 0 0 1 16 0zm-4.5-.5a.5.5 0 0 1 0 1H5.707l2.147 2.146a.5.5 0 0 1-.708.708l-3-3a.5.5 0 0 1 0-.708l3-3a.5.5 0 1 1 .708.708L5.707 7.5H11.5z"
+                  fill="white"
+                ></path>
+              </svg>
+            </div>
+            <div id="next" onClick={goNext}>
+              <svg
+                xmlns="http://www.w3.org/2000/svg"
+                width="30px"
+                height="30px"
+                fill="currentColor"
+                class="bi bi-arrow-right-circle"
+                viewBox="0 0 16 16"
+                stroke-width="0.3"
+                stroke="#fff"
+              >
+                <path
+                  fill-rule="evenodd"
+                  d="M1 8a7 7 0 1 0 14 0A7 7 0 0 0 1 8zm15 0A8 8 0 1 1 0 8a8 8 0 0 1 16 0zM4.5 7.5a.5.5 0 0 0 0 1h5.793l-2.147 2.146a.5.5 0 0 0 .708.708l3-3a.5.5 0 0 0 0-.708l-3-3a.5.5 0 1 0-.708.708L10.293 7.5H4.5z"
+                ></path>
+              </svg>
             </div>
           </div>
-        </section>
-      </main>
-    </>
+        </div>
+      </section>
+    </main>
   );
 };
 
