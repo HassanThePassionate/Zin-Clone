@@ -87,8 +87,8 @@ const Cpdf = ({ mode }) => {
   ];
   return (
     <>
-      <main className={`main last ${mode === "dark" ? "dark-main" : "main"}`}>
-        <section className="container slider">
+      <main className={`main   ${mode === "dark" ? "dark-main" : "main"}`}>
+        <section className="container slider last-slider ">
           <h2> Convert from PDF</h2>
           <div className="grid">
             {data.map((e, index) => (

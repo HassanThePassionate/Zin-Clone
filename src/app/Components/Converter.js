@@ -71,7 +71,7 @@ const Converter = ({ mode }) => {
 
   return (
     <>
-      <main className={`main last ${mode === "dark" ? "dark-main" : "main"}`}>
+      <main className={`main ${mode === "dark" ? "dark-main" : "main"}`}>
         <section className="container slider">
           <h2> Convert from PDF</h2>
           <div className="grid">
